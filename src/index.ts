@@ -15,7 +15,7 @@ const {
 const port = PORT || 3000;
 const dbUrl =
   MONGO_URL ||
-  "mongodb+srv://admin:31qyZRfkjkpE5E0h@zdanevich-incubator.sy4sfvr.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://admin:31qyZRfkjkpE5E0h@zdanevich-incubator.sy4sfvr.mongodb.net/?retryWrites=true&w=majority?authSource=admin";
 
 // const dbConfig: string = config.get("KanbanBoard.dbConfig.dbName");
 
