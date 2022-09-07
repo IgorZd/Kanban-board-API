@@ -32,16 +32,14 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/kanbanBoard", kanbanBoardRouter);
 
-if (process.env.NODE_ENV === "production") {
-  console.log("PRODUCTION MODE ACTIVE");
-  //app.use('/', express.static("/client/build"));
-  app.use(express.static("./client/build"));
-}
-
 const startApp = async () => {
   // await runDb();
   app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+    console.log(
+      `Example app listening on port ${
+        ((this as any)?.address().port, app.settings.env)
+      }`
+    );
   });
 };
 
