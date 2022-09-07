@@ -35,7 +35,7 @@ app.use("/kanbanBoard", kanbanBoardRouter);
 
 const startApp = async () => {
   // await runDb();
-  app.listen(port, host, () => {
+  app.listen(+port, host, () => {
     console.log(`Example app listening on port ${port}`);
   });
 };
