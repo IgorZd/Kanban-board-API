@@ -9,6 +9,7 @@ import { kanbanBoardRouter } from "./routes/kanban-board-router";
 
 const app = express();
 const port = process.env.PORT || 3000;
+const host = process.env.HOST || "0.0.0.0";
 const dbConfig: string = config.get("KanbanBoard.dbConfig.dbName");
 
 mongoose
@@ -34,7 +35,7 @@ app.use("/kanbanBoard", kanbanBoardRouter);
 
 const startApp = async () => {
   // await runDb();
-  app.listen(port, () => {
+  app.listen(port, host, () => {
     console.log(`Example app listening on port ${port}`);
   });
 };
