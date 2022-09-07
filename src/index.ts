@@ -2,7 +2,8 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import config from "config";
+// import config from "config";
+import timeout from "connect-timeout";
 
 // import { runDb } from "./repositories/db";
 import { kanbanBoardRouter } from "./routes/kanban-board-router";
@@ -36,6 +37,7 @@ mongoose
 const parserMiddleware = bodyParser({});
 const corsMiddleware = cors();
 
+app.use(timeout("5s"));
 app.use(parserMiddleware);
 app.use(corsMiddleware);
 
