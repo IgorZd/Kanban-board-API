@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 // import config from "config";
 import timeout from "connect-timeout";
 
-// import { runDb } from "./repositories/db";
+import { runDb } from "./repositories/db";
 import { kanbanBoardRouter } from "./routes/kanban-board-router";
 
 const app = express();
@@ -27,12 +27,13 @@ const dbUrl =
 //   .catch((err) => {
 //     console.log("Database not connected" + err);
 //   });
-mongoose
-  .connect(`${dbUrl}`)
-  .then(() => console.log(`Database connected at ${dbUrl}`))
-  .catch((err) => {
-    console.log("Database not connected" + err);
-  });
+
+// mongoose
+//   .connect(`${dbUrl}`)
+//   .then(() => console.log(`Database connected at ${dbUrl}`))
+//   .catch((err) => {
+//     console.log("Database not connected" + err);
+//   });
 
 const parserMiddleware = bodyParser({});
 const corsMiddleware = cors();
@@ -53,7 +54,7 @@ if (NODE_ENV === "production") {
 }
 
 const startApp = async () => {
-  // await runDb();
+  await runDb();
   app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   });
