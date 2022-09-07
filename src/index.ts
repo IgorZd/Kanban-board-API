@@ -2,17 +2,17 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import config from "config";
 
 // import { runDb } from "./repositories/db";
 import { kanbanBoardRouter } from "./routes/kanban-board-router";
 
 const app = express();
 const port = process.env.PORT || 3000;
+const dbConfig: string = config.get("KanbanBoard.dbConfig.dbName");
 
 mongoose
-  .connect(
-    "mongodb+srv://admin:31qyZRfkjkpE5E0h@zdanevich-incubator.sy4sfvr.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect(dbConfig)
   .then(() => {
     console.log("Database connected");
   })
@@ -35,11 +35,7 @@ app.use("/kanbanBoard", kanbanBoardRouter);
 const startApp = async () => {
   // await runDb();
   app.listen(port, () => {
-    console.log(
-      `Example app listening on port ${
-        ((this as any)?.address().port, app.settings.env)
-      }`
-    );
+    console.log(`Example app listening on port ${port}`);
   });
 };
 

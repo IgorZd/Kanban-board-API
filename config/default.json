@@ -1,0 +1,9 @@
+{
+  "KanbanBoard": {
+    "dbConfig": {
+      "host": "localhost",
+      "port": 3000,
+      "dbName": "mongodb+srv://admin:31qyZRfkjkpE5E0h@zdanevich-incubator.sy4sfvr.mongodb.net/?retryWrites=true&w=majority"
+    }
+  }
+}
