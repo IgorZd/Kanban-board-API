@@ -11,7 +11,7 @@ export type KanbanBoardType = {
   tasksList: TaskState[];
 };
 
-const mongoUri = process.env.MONGO_URL || "mongodb://0.0.0.0:27017";
+const mongoUri = process.env.mongoURI || "mongodb://0.0.0.0:27017";
 
 const client = new MongoClient(mongoUri);
 const db = client.db("admin");
