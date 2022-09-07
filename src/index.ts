@@ -48,7 +48,11 @@ app.use("/kanbanBoard", kanbanBoardRouter);
 
 if (NODE_ENV === "production") {
   console.log("node environment is production");
-  app.use(express.static("/dist"));
+  app.use(express.static("dist/index.js"));
+}
+if (NODE_ENV === "development") {
+  console.log("node environment is development");
+  app.use(express.static("dist/index.js"));
 }
 
 const startApp = async () => {
