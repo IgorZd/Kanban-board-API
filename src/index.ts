@@ -8,15 +8,27 @@ import config from "config";
 import { kanbanBoardRouter } from "./routes/kanban-board-router";
 
 const app = express();
-const port = process.env.PORT || 3000;
-const host = process.env.HOST || "0.0.0.0";
-const dbConfig: string = config.get("KanbanBoard.dbConfig.dbName");
+const {
+  env: { PORT, MONGO_URL, NODE_ENV },
+} = process;
+const port = PORT || 3000;
+const dbUrl =
+  MONGO_URL ||
+  "mongodb+srv://admin:31qyZRfkjkpE5E0h@zdanevich-incubator.sy4sfvr.mongodb.net/?retryWrites=true&w=majority";
 
+// const dbConfig: string = config.get("KanbanBoard.dbConfig.dbName");
+
+// mongoose
+//   .connect(dbConfig)
+//   .then(() => {
+//     console.log("Database connected");
+//   })
+//   .catch((err) => {
+//     console.log("Database not connected" + err);
+//   });
 mongoose
-  .connect(dbConfig)
-  .then(() => {
-    console.log("Database connected");
-  })
+  .connect(`${dbUrl}`)
+  .then(() => console.log(`Database connected at ${dbUrl}`))
   .catch((err) => {
     console.log("Database not connected" + err);
   });
@@ -33,9 +45,14 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/kanbanBoard", kanbanBoardRouter);
 
+if (NODE_ENV === "production") {
+  console.log("node environment is production");
+  app.use(express.static("client/dist"));
+}
+
 const startApp = async () => {
   // await runDb();
-  app.listen(+port, host, () => {
+  app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
   });
 };
