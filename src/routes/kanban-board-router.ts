@@ -3,6 +3,7 @@ import { kanbanBoardService } from "../domain/kanban-board-service";
 import { inputValidationMiddleware } from "../middlewares/input-validation-middleware";
 import {
   isColumnIdExistMiddleware,
+  isReplacingIdsExistMiddleware,
   isTaskIdExistMiddleware,
 } from "../middlewares/isIdExist-middleware";
 import {
@@ -48,6 +49,29 @@ kanbanBoardRouter.get(
       res.send(column);
     } else {
       res.sendStatus(404);
+    }
+  }
+);
+
+kanbanBoardRouter.post(
+  "/from/:homeColumnId/to/:targetColumnId/replace/:taskId",
+  isReplacingIdsExistMiddleware,
+  async (req: Request, res: Response) => {
+    const task = await kanbanBoardService.getTaskById(
+      req.params.homeColumnId,
+      req.params.taskId
+    );
+    if (task) {
+      const isTaskReplaced = await kanbanBoardService.replaceTask(
+        req.params.homeColumnId,
+        req.params.targetColumnId,
+        task
+      );
+      if (isTaskReplaced) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(404);
+      }
     }
   }
 );

@@ -27,6 +27,17 @@ export const kanbanBoardService = {
     const column = await kanbanBoardRepository.getColumnById(columnId);
     return column;
   },
+  async replaceTask(
+    homeColumnId: string,
+    targetColumnId: string,
+    task: TaskState
+  ) {
+    return await kanbanBoardRepository.replaceTask(
+      homeColumnId,
+      targetColumnId,
+      task
+    );
+  },
   async createTask(
     columnId: string,
     description: string,

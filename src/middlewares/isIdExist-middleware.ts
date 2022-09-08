@@ -39,3 +39,38 @@ export const isTaskIdExistMiddleware = async (
     } else next();
   }
 };
+export const isReplacingIdsExistMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const homeColumnId: string = req.params.homeColumnId;
+  const targetColumnId: string = req.params.targetColumnId;
+  const taskId: string = req.params.taskId;
+
+  if (
+    typeof homeColumnId !== "string" ||
+    typeof targetColumnId !== "string" ||
+    typeof taskId !== "string"
+  ) {
+    res.sendStatus(404);
+    return;
+  }
+  const homeColumn = await kanbanBoardService.getColumnById(homeColumnId);
+  const targetColumn = await kanbanBoardService.getColumnById(targetColumnId);
+
+  if (!homeColumn) {
+    res.status(404).send("Home column ID doesn't exist");
+    return;
+  }
+  if (!targetColumn) {
+    res.status(404).send("Target column ID doesn't exist");
+    return;
+  }
+  if (homeColumn && targetColumn) {
+    const task = kanbanBoardService.getTaskById(homeColumnId, taskId);
+    if (!task) {
+      res.status(404).send("Task doesn't exist");
+    } else next();
+  }
+};

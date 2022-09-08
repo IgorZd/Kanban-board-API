@@ -14,6 +14,29 @@ export const kanbanBoardRepository = {
 
     return result.deletedCount === 1;
   },
+  async replaceTask(
+    homeColumnId: string,
+    targetColumnId: string,
+    task: TaskState
+  ): Promise<boolean> {
+    const id = task?.id;
+    if (id) {
+      const removing = await kanbanBoardCollection.updateOne(
+        { id: homeColumnId },
+        { $pull: { tasksList: { id } } }
+      );
+      const adding = await kanbanBoardCollection.updateOne(
+        { id: targetColumnId },
+        { $push: { tasksList: task } }
+      );
+      return (
+        removing.matchedCount === 1 &&
+        removing.modifiedCount === 1 &&
+        adding.matchedCount === 1 &&
+        adding.modifiedCount === 1
+      );
+    } else return false;
+  },
   async createTask(columnId: string, newTask: TaskState): Promise<TaskState> {
     const result = await kanbanBoardCollection.updateOne(
       { id: columnId },
