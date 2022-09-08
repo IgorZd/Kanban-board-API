@@ -32,7 +32,7 @@ export const kanbanBoardService = {
     description: string,
     author: string
   ): Promise<TaskState> {
-    const newTask = { id: `${+new Date()}`, description, author };
+    const newTask = { id: `${+new Date()}`.substring(10), description, author };
     const createdTask = await kanbanBoardRepository.createTask(
       columnId,
       newTask
